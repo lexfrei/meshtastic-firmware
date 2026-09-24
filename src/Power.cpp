@@ -1335,7 +1335,9 @@ void Power::logHeapUsage()
 /// user's setting to overwrite.
 void Power::handleWifiPowerManagement()
 {
-    const uint32_t timeoutSecs = config.network.wifi_power_loss_timeout_secs;
+    // TEST BUILD, not for merge: the released CLI cannot write the new field yet, so a node
+    // that never set it runs with 30 s instead of 0. Nothing is stored.
+    const uint32_t timeoutSecs = config.network.wifi_power_loss_timeout_secs ? config.network.wifi_power_loss_timeout_secs : 30;
 
     if (timeoutSecs == 0 || !config.network.wifi_enabled) {
         // Turned off while WiFi was down for it: nothing else would ever bring the radio back.
